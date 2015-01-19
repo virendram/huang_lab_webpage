@@ -6,10 +6,11 @@
         
         <body>
             <h1>Join now</h1>
-            <form method='POST' action=''>
+            <form method='POST' action=''> {%csrf_token%}
                 
+                {{form.as_p}}
                 
-                <input type='submit'>
+                <input type= "submit" value = "Submit"/>
             </form>
         </body>
     </html>
