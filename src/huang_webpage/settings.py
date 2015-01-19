@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = ')h*up2ky!+000^f4m+jf50ri8a14+b!*vwz)uuc@cp!s+r5)8n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True # Set to False when deploying -- Virendra
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] # Change to brainmrimaps.org later -- Virendra
 
 
 # Application definition
