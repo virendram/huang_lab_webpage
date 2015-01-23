@@ -2,3 +2,43 @@
     background:grey;
     text-align:center;
 }*/
+
+.jumbotron{
+    background-color: #FFFFFF
+
+}
+
+.navbar-inverse{
+    background-color: #41AFC3
+}
+
+.container{
+    color:#1822E6
+}
+
+hr{
+    margin-top: -13px;
+    border-width: 4px 0px 0px;
+    border-color: #1822E6 -moz-use-text-color -moz-use-text-color
+    
+    }
+
+.navbar-inverse
+.navbar-nav>li>
+a{
+    color:#000000
+}
+
+.navbar-nav>li>
+a{
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-right:-100px;
+    padding-left: 35px
+}
+
+.navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse {
+    padding-right: 0px;
+    padding-left: 450px;
+    
+}
