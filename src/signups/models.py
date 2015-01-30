@@ -5,6 +5,7 @@ from django.db import models
 class SignUp(models.Model):
     first_name=models.CharField(max_length=120,null=False,blank=False)
     last_name=models.CharField(max_length=120,null=False,blank=False)
+    Organization=models.CharField(max_length=120,null=True,blank=False)
     email=models.EmailField(null=False,blank=False)
     timestamp = models.DateTimeField(auto_now_add=True,auto_now=False)
     updated = models.DateTimeField(auto_now_add=False,auto_now=True)

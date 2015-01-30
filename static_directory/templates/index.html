@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block jumbotron %}
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div style="margin-bottom: -70px;" class="jumbotron">
+      <div class="container">
+        <!--<h1>Childrens Hospital Of Philadelphia</h1>
+        <h2>Laboratory of Neuroimaging and Brain Connectivity</h2>-->
+        <!--<div class="col-sm-2">
+        <div class="row text-left">
+          <img src="../../media/combined_index.bmp" class="img-square" height="200" width="200">
+        </div>
+        </div
+        
+        <div class="col-sm-2">
+          <div class="row text-left">
+        <p>Magnetic resonance imaging and analysis techniques, especially those related to diffusion imaging (including diffusion tensor imaging or DTI), have been widely used to delineate the details of the connectivity of developmental brains and biomarkers of the brains with neurological diseases or psychological disorders. </p>
+        <p>Our lab is dedicated to developing and applying the cutting-edge MR neuroimaging techniques to: </p>
+        <ol>
+            <h4><li class="my_list_class">Quantitatively characterizing the developmental connectome</li></h4>
+            <h4><li class="my_list_class">Establishing unbiased measures of brain microstructure</li></h4>
+            <h4><li class="my_list_class">Identifying the imaging biomarkers of the pathological brains</li></h4>
+        </ol>
+        </div>
+        </div>-->
+        
+        <table class="table"> 
+               
+           
+                  <tbody>
+                     <tr>
+                      <td>
+                            <div class="row text-left">
+                                <div class="col-sm-12">
+                                    <p>Magnetic resonance imaging and analysis techniques, especially those related to diffusion imaging (including diffusion tensor imaging or DTI), have been widely used to delineate the details of the connectivity of developmental brains and biomarkers of the brains with neurological diseases or psychological disorders. </p>
+                                    <p>Our lab is dedicated to developing and applying the cutting-edge MR neuroimaging techniques to: </p>
+                                    <ol>
+                                    <h4><li class="my_list_class">Quantitatively characterizing the developmental connectome</li></h4>
+                                    <h4><li class="my_list_class">Establishing unbiased measures of brain microstructure</li></h4>
+                                    <h4><li class="my_list_class">Identifying the imaging biomarkers of the pathological brains</li></h4>
+                                    </ol>
+                                </div>
+                            </div>
+                        </td>
+                      
+                        <td>
+                            <div class="row text-right">
+                                <img src="../../media/combined_index.bmp" class="img-square" height="300px">
+                            </div>
+                        </td>
+        
+                        
+                
+                     </tr>
+        
+                </tbody>
+                </table>
+        <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>-->
+      </div>
+    </div>
+ {% endblock %}   
+    
+{% block content %}    
+            
+            
+            
+       <!-- Example row of columns -->
+       <div class="row" style='text-align: left'>
+       
+        <h1> <strong><u>Current research topics</u></strong></h1>
+         <!--<hr>-->
+    </div>
+       
+        <div class="col-sm-3 text-center">
+          <h2>Fetal brain development</h2>
+          <div class="row text-center">
+                    <img src="../../media/fetal_brain.bmp" class="img-square" height="200" width="200">
+                        
+            </div><br>
+          <!--img id="template" src="../../media/age_specific_template.png" height="400" width="400">-->
+          <!--<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>-->
+          
+          <p><a class="btn btn-default" href='{%url "research" %}' role="button">View details &raquo;</a></p>
+          
+        </div>
+        
+        <div class="col-sm-3 text-center">
+          <h2>Macaque brain atlas</h2>
+          <div class="row text-center">
+                    <img src="../../media/macaque_brain_figure.bmp" class="img-square" height="200" width="200">
+                        
+            </div><br>
+          <!--<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>-->
+          
+          <p><a class="btn btn-default" href='{%url "research" %}' role="button">View details &raquo;</a></p>
+          
+        </div>
+        
+        <div class="col-sm-3 text-center">
+          <h2>Tract-specific analysis</h2>
+          <div class="row text-center">
+                    <img src="../../media/tract-level-figure.bmp" class="img-square" height="200" width="200">
+                        
+            </div><br>
+          <!--<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>-->
+          
+          <p><a class="btn btn-default" href='{%url "research" %}' role="button">View details &raquo;</a></p>
+          
+        </div>
+        
+        <div class="col-sm-3 text-center">
+          <h2>Age-specific brain template</h2>
+          <!--<p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>-->
+          <div class="row text-center">
+                    <img src="../../media/age_specific_template.png" class="img-square" height="160" width="300">
+                        
+            </div><br><br><br>
+          
+          <p><a class="btn btn-default" href='{%url "research" %}' role="button">View details &raquo;</a></p>
+          
+        </div>
+        
+        
+        <br> <br>
+        <div>
+          <p><a class="btn btn-primary btn-lg" href='{%url "download" %}' role="button">Join now to stay updated about our research &raquo;</a></p>
+        </div>
+        <!--<div class="col-sm-12">
+          <h1>Join now</h1>
+            <form method='POST' action=''> {% csrf_token %}
+        
+                {{form.as_p}}
+                
+                <input type= "submit" value = "Submit"/>
+            </form>
+            
+        </div>-->
+        
+      <div class="col-sm-12">
+        <br>
+        <p><b><strong><u>Contact</u></strong></b></p>
+        <p><b><i>Physical address:</i></b></p>
+        <p><b></i>Mailing address:</i></b></p>
+        <p><b><i>Telephone:</i></b></p>
+        <p><b><i>Fax:</i></b></p>
+        <p><b><i>Email:</i></b> &nbsp &nbsp <a href="mailto:huangh6@email.chop.edu"><b><strong style="color:black;">Hao Huang, Ph.D.</strong></b></a></p>
+      </div>
+
+<hr>
+<footer>
+        <!--<p>&copy; Company 2014</p>-->
+        <p>&nbsp &nbsp The Children's Hospital <i>of</i> Philadelphia, 2015 <sup>&reg;</sup></p>
+      </footer>
+        
+{% endblock %}
+
+
+        
+        

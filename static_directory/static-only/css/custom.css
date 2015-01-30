@@ -1,4 +1,43 @@
-.success{
+/*.success{
     background:grey;
     text-align:center;
+}*/
+
+
+.jumbotron{
+    background-color: #FFFFFF
+
 }
+/*
+.navbar-inverse{
+    background-color: #41AFC3
+}
+
+.container{
+    color:#1822E6
+}
+
+
+.mynavbar li{
+    display: inline;
+    text-align: left;
+    padding-left: 500px;
+    padding-right: 500px;
+}
+*/
+
+/*
+.navbar-inverse
+.navbar-nav>li>
+a{
+    color:#000000
+}
+
+
+.navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse {
+    padding-right: 0px;
+    padding-left: 800px;
+    
+}
+
+*/
