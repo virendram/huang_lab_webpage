@@ -9,6 +9,13 @@
 
 }
 
+.navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 0px;
+    border: 0px solid transparent;
+}
+
 .navbar-inverse {
     background-color: #41AFC3;
     border-color: #080808;
@@ -19,7 +26,7 @@
 }
 
 .navbar-nav > li > a {
-    padding-top: 30px;
+    padding-top: 40px;
     padding-bottom: 15px;
 }
 
@@ -44,6 +51,25 @@
     vertical-align: top;
     border-top: 0px;
 }
+
+body {
+    padding-top: 0px;
+    padding-bottom: 20px;
+}
+
+
+.table-bordered {
+    border: 5px solid #000;
+}
+
+/*table {
+    background-color: rgba(242, 224, 33, 0.19);
+}
+*/
+.table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+    border: 1px solid #000;
+}
+
 
 /*
 .navbar-inverse{

@@ -8,6 +8,69 @@
     background-color: #FFFFFF
 
 }
+
+.navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 0px;
+    border: 0px solid transparent;
+}
+
+.navbar-inverse {
+    background-color: #41AFC3;
+    border-color: #080808;
+}
+.navbar-fixed-top {
+    top: 0px;
+    border-width: 0px 0px 1px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 40px;
+    padding-bottom: 15px;
+}
+
+.navbar-fixed-bottom, .navbar-fixed-top {
+    position: fixed;
+    right: 0px;
+    left: 0px;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    float: left;
+    height: 40px;
+    padding: 8px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    padding: 8px;
+    line-height: 1.42857;
+    vertical-align: top;
+    border-top: 0px;
+}
+
+body {
+    padding-top: 0px;
+    padding-bottom: 20px;
+}
+
+
+.table-bordered {
+    border: 5px solid #000;
+}
+
+/*table {
+    background-color: rgba(242, 224, 33, 0.19);
+}
+*/
+.table-bordered > tbody > tr > td, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > td, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > thead > tr > th {
+    border: 1px solid #000;
+}
+
+
 /*
 .navbar-inverse{
     background-color: #41AFC3

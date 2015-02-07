@@ -11,15 +11,24 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'signups.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^download/$', 'signups.views.download', name='download'),
-    url(r'^aboutus/$', 'signups.views.aboutus', name='aboutus'),
-    url(r'^publications/$', 'signups.views.publications', name='publications'),
-    url(r'^research/$', 'signups.views.research', name='research'),
-    url(r'^contactus/$', 'signups.views.contactus', name='contactus'),
+    url(r'^admin/', include(admin.site.urls)),
+    
     url(r'^index/$', 'signups.views.home', name='home'),
+    url(r'^research/$', 'signups.views.research', name='research'),
+    url(r'^contact_us/$', 'signups.views.contact_us', name='contact_us'),
+    url(r'^publications/$', 'signups.views.publications', name='publications'),
+    url(r'^download/$', 'signups.views.download', name='download'),
+    #url(r'^gestational_week_33wg_b0/$', 'signups.views.gestational_week_33wg_b0', name='gestational_week_33wg_b0'),
+   # url(r'^downloads1/$', 'signups.views.downloads1', name='downloads1'),
+    #url(r'^aboutus/$', 'signups.views.aboutus', name='aboutus'),
+    
+    
+    
+    
+    
     #url(r'^signup/$', 'signups.views.login', name='login'),
     
-    url(r'^admin/', include(admin.site.urls)),
+    
 )
 
 if settings.DEBUG:
