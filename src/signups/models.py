@@ -1,5 +1,6 @@
 from django.db import models
 import hashlib
+import datetime
 #from django.utils.encoding import smart_unicode
 # Controls the user database
 
@@ -7,9 +8,12 @@ class SignUp(models.Model):
     first_name=models.CharField(max_length=120,null=False,blank=False)
     last_name=models.CharField(max_length=120,null=False,blank=False)
     password=models.CharField(max_length=120,null=False,blank=False)
+    password_conf=models.CharField(max_length=120,null=False,blank=False)
     Organization=models.CharField(max_length=120,null=True,blank=False)
     email=models.EmailField(null=False,blank=False)
     position=models.CharField(max_length=120,null=False,blank=False)
+    activation_key = models.CharField(max_length=40, blank=True)
+    key_expires = models.DateTimeField(default=datetime.date.today())
     timestamp = models.DateTimeField(auto_now_add=True,auto_now=False)
     updated = models.DateTimeField(auto_now_add=False,auto_now=True)
     
