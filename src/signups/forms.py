@@ -1,5 +1,5 @@
 from django import forms
-from .models import SignUp,MyLogin
+from .models import SignUp,MyLogin,MyForgotPassword,MyPasswordReset
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import (
@@ -96,8 +96,72 @@ class MyLoginForm(forms.ModelForm):
         if 'email' in self.cleaned_data:
             password = self.cleaned_data["password"]
             email = self.cleaned_data["email"]
-            print(email)
+            
             stored_password=SignUp.objects.get(email=email,is_active=True)
             if check_password(password,stored_password.password)== False:
                 raise forms.ValidationError('Entered password does not match the registered password!')
+
+
+class MyForgotPasswordForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MyForgotPasswordForm, self).__init__(*args, **kwargs)
+        self.fields['email'].label = ''
+        
+        
+    class Meta:
+        
+        model= MyForgotPassword
+        widgets={
+            'email': forms.TextInput(attrs={'size':50,'placeholder':'Email'}),
+            
+        }
+        fields = ['email']
+    
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        
+        if SignUp.objects.filter(email=email).exists():
+            return email
+                     
+        else:            
+            raise forms.ValidationError('A User with this email does not exist!')
+        
+class MyPasswordResetForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MyPasswordResetForm, self).__init__(*args, **kwargs)
+        self.fields['email'].label = ''
+        self.fields['password'].label = ''
+        self.fields['password_conf'].label = ''
+        
+    
+    class Meta:
+        
+        model=MyPasswordReset
+        widgets={
+            'email': forms.TextInput(attrs={'size':50,'placeholder':'Email'}),
+            'password':forms.PasswordInput(attrs={'placeholder': 'Password','size':50}),
+            'password_conf':forms.PasswordInput(attrs={'placeholder': 'Re-enter Password','size':50}),
+            
+            
+        }
+        fields = ['email','password','password_conf']
+        
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        user = super(MyPasswordResetForm, self).save(commit=False)
+        
+        if SignUp.objects.filter(email=email).exists():
+            return email
+        else:
+            raise forms.ValidationError('A User with this email does not exist!')
+            
+    
+    def clean(self):
+        if 'password' in self.cleaned_data and 'password_conf' in self.cleaned_data and self.cleaned_data['password'] != self.cleaned_data['password_conf']:
+            raise forms.ValidationError("The password does not match ")
+        return self.cleaned_data
+    
+
+    
+    
     

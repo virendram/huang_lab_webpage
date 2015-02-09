@@ -33,3 +33,17 @@ class MyLogin(models.Model):
     def __str__(self):
         return str(self.email)
     
+class MyForgotPassword(models.Model):
+    email=models.EmailField(null=False,blank=True)
+    
+    
+    def __str__(self):
+        return str(self.email)
+    
+class MyPasswordReset(models.Model):
+    email=models.EmailField(null=False,blank=True)
+    password=models.CharField(max_length=120,null=False,blank=False)
+    password_conf=models.CharField(max_length=120,null=False,blank=False)
+    
+    def __str__(self):
+        return str(self.email)

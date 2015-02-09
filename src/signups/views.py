@@ -15,6 +15,10 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django import forms
 
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
+
+from django.contrib.auth.views import password_reset, password_reset_done,password_reset_confirm, password_reset_complete
+
 
 
 from .forms import SignUpForm
@@ -22,6 +26,12 @@ from .models import SignUp
 
 from .forms import MyLoginForm
 from .models import MyLogin
+
+from .forms import MyForgotPasswordForm
+from .models import MyForgotPassword
+
+from .forms import MyPasswordResetForm
+from .models import MyPasswordReset
 
 
 
@@ -326,4 +336,145 @@ def signup(request):
     return render_to_response("signup.html",
                               locals(),
                               context_instance=RequestContext(request))
+
+
+def forgot_password(request):
+    form = MyForgotPasswordForm(request.POST or None)
+    
+    if form.is_valid():
+        save_it = form.save()
+        save_it_email = save_it.email
+        user_test = SignUp.objects.filter(email=save_it.email,is_active=True).exists()
+        if not user_test:
+            return render_to_response("verify_user.html")
+        user = SignUp.objects.get(email=save_it.email,is_active=True)
+        SignUp.objects.get(email=save_it.email,is_active=True).delete()
+        new_profile = SignUp(first_name=user.first_name,
+                             last_name=user.last_name,
+                             email=user.email,
+                             password=user.password,
+                             position=user.position,
+                             password_conf=user.password_conf,
+                             Organization=user.Organization,
+                             activation_key=user.activation_key,key_expires=user.key_expires,is_active=False)
+                #print(new_profile.password)
+        new_profile.save()
+                
+        salt = hashlib.sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]            
+        activation_key = hashlib.sha1((salt+save_it.email).encode('utf-8')).hexdigest() 
+        email_subject = 'Password Reset'
+        email_body = "Dear %s, \
+                     \n\nThank you for reaching out to us. \
+                     \n\nTo reset your password, please click this link http://127.0.0.1:8000/reset_password/%s \
+                     \n\nWarm Regards, \
+                     \n\nWebmaster, \
+                     \nBrain MRI Maps. \
+                     \nwww.brainmrimaps.org" % (save_it_email, activation_key)
+                     
+        
+        from_email=settings.EMAIL_HOST_USER
+        to_list=[save_it.email]
+            
+            
+        send_mail(email_subject,email_body,from_email,to_list,fail_silently=False)
+            
+        return render_to_response("check_email_password_reset.html")    
+        
+        
+    return render_to_response("forgot_password.html",
+                              locals(),
+                              context_instance=RequestContext(request))
+
+def reset_password(request, activation_key):
+    
+    form = MyPasswordResetForm(request.POST or None)
+    
+    if form.is_valid():
+        
+        save_it = form.save()
+        
+        save_it.password = make_password(password=save_it.password,
+                                   salt=None,
+                                   hasher='pbkdf2_sha256')
+        
+        save_it.password_conf = save_it.password
+        save_it.save() 
+       
+        #print(save_it.password)
+       
+        totalusers=SignUp.objects.filter(email=save_it.email).count()
+        #if totalusers>1:
+        #    print("Some Problem in database...")
+            
+        #print(totalusers)
+        #if totalusers!=0:
+            
+        #for i in range(totalusers):
+                
+        user=SignUp.objects.get(email=save_it.email)
+        SignUp.objects.get(email=save_it.email,is_active=False).delete()
+        user_password = save_it.password
+        user_password_conf = save_it.password_conf
+        user_first_name = user.first_name
+        new_profile = SignUp(first_name=user.first_name,
+                             last_name=user.last_name,
+                             email=user.email,
+                             password=user_password,
+                             position=user.position,
+                             password_conf=user_password_conf,
+                             Organization=user.Organization,
+                             activation_key=user.activation_key,key_expires=user.key_expires,is_active=True)
+                #print(new_profile.password)
+        new_profile.save()
+                
+                #if new_profile.password == save_it.password:
+                #    print("Password matched")
+                
+                # Send email with activation key
+        email_subject = 'Password Changed'
+        email_body = "Dear %s, \
+                     \n\nYour password has been reset. \
+                     \n\nPlease login with your registered email address and current password. \
+                     \n\nWarm Regards, \
+                     \n\nWebmaster, \
+                     \nBrain MRI Maps. \
+                     \nwww.brainmrimaps.org" % (user.first_name)
+        from_email=settings.EMAIL_HOST_USER
+        to_list=[user.email]
+        send_mail(email_subject,email_body,from_email,to_list,fail_silently=False)
+        
+       
+        
+        
+
+        
+        #user = SignUp.objects.get(email=signup_user_email,is_active=False)
+        #user.delete()  
+        return render_to_response("password_changed_successfully.html")    
+        
+        
+    else:
+        return render_to_response("reset_password.html",
+                              locals(),
+                              context_instance=RequestContext(request))
+
+
+def check_email_password_reset(request):
+    return render_to_response("check_email_password_reset.html")
+
+def password_changed_successfully(request):
+    return render_to_response("password_changed_successfully.html")
+
+
+
+
+
+
+
+
+
+
+
+
+
 
