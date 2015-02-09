@@ -56,10 +56,73 @@ def contact_us(request):
     
     return render_to_response("contact_us.html")
 
-
 def download(request):
-    form = SignUpForm(request.POST or None)
+    #form = SignUpForm(request.POST or None)
+    form = MyLoginForm(request.POST or None)
     
+    
+    if form.is_valid():
+        save_it = form.save()
+        superuser_email = 'virendra.mishra@gmail.com'
+        if superuser_email == save_it.email:
+            subject='Super user access granted!'
+            salt = hashlib.sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]
+            permission_key = hashlib.sha1((salt+superuser_email).encode('utf-8')).hexdigest()            
+            message = "Dear Superuser, \
+                 \n\nYou have superuser permissions. \
+                 \n\nPlease click this link to access page to send email to everyone on the registered list. http://127.0.0.1:8000/mass_email/%s \
+                 \n\nWarm Regards, \
+                 \n\nWebmaster, \
+                 \nBrain MRI Maps. \
+                 \nwww.brainmrimaps.org" % (permission_key)
+            from_email=settings.EMAIL_HOST_USER
+            to_list=[save_it.email]
+            send_mail(subject,message,from_email,to_list,fail_silently=False)
+        return render_to_response("downloads.html")
+    return render_to_response("login.html",
+                              locals(),
+                              context_instance=RequestContext(request))
+
+def login(request):
+    form = MyLoginForm(request.POST or None)
+    
+    
+    if form.is_valid():
+        save_it = form.save()
+        superuser_email = 'virendra.mishra@gmail.com'
+        if superuser_email == save_it.email:
+            subject='Super user access granted!'
+            salt = hashlib.sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]
+            permission_key = hashlib.sha1((salt+superuser_email).encode('utf-8')).hexdigest()            
+            message = "Dear Superuser, \
+                 \n\nYou have superuser permissions. \
+                 \n\nPlease click this link to access page to send email to everyone on the registered list. http://127.0.0.1:8000/mass_email/%s \
+                 \n\nWarm Regards, \
+                 \n\nWebmaster, \
+                 \nBrain MRI Maps. \
+                 \nwww.brainmrimaps.org" % (permission_key)
+            from_email=settings.EMAIL_HOST_USER
+            to_list=[save_it.email]
+            send_mail(subject,message,from_email,to_list,fail_silently=False)
+            
+        
+        
+            
+        
+        
+        
+        
+        return render_to_response("downloads.html")
+
+        
+        
+    return render_to_response("login.html",
+                              locals(),
+                              context_instance=RequestContext(request))
+    
+
+def signup(request):
+    form = SignUpForm(request.POST or None)
     
     if form.is_valid():
         
@@ -90,8 +153,7 @@ def download(request):
 
         # Create and save user profile                                                                                                                                  
         
-        
-        
+
         new_profile = SignUp(first_name=user.first_name,
                              last_name=user.last_name,
                              email=user.email,
@@ -117,7 +179,7 @@ def download(request):
         to_list=[user_email]
             
             
-        send_mail(email_subject,email_body,from_email,to_list,fail_silently=False)
+        send_mail(email_subject,email_body,from_email,to_list,fail_silently=True)
             
         return render_to_response("verify_user.html")    
         
@@ -131,7 +193,7 @@ def download(request):
     return render_to_response("signup.html",
                               locals(),
                               context_instance=RequestContext(request))
-    
+
 
 def register_confirm(request, activation_key):
     
@@ -227,116 +289,6 @@ def mass_email(request,permission_key):
 def thank_you(request):
     return render_to_response("thank-you.html")
 
-def login(request):
-    form = MyLoginForm(request.POST or None)
-    
-    
-    if form.is_valid():
-        save_it = form.save()
-        superuser_email = 'virendra.mishra@gmail.com'
-        if superuser_email == save_it.email:
-            subject='Super user access granted!'
-            salt = hashlib.sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]
-            permission_key = hashlib.sha1((salt+superuser_email).encode('utf-8')).hexdigest()            
-            message = "Dear Superuser, \
-                 \n\nYou have superuser permissions. \
-                 \n\nPlease click this link to access page to send email to everyone on the registered list. http://127.0.0.1:8000/mass_email/%s \
-                 \n\nWarm Regards, \
-                 \n\nWebmaster, \
-                 \nBrain MRI Maps. \
-                 \nwww.brainmrimaps.org" % (permission_key)
-            from_email=settings.EMAIL_HOST_USER
-            to_list=[save_it.email]
-            send_mail(subject,message,from_email,to_list,fail_silently=False)
-            
-        
-        
-            
-        
-        
-        
-        
-        return render_to_response("downloads.html")
-
-        
-        
-    return render_to_response("login.html",
-                              locals(),
-                              context_instance=RequestContext(request))
-
-def signup(request):
-    form = SignUpForm(request.POST or None)
-    
-    if form.is_valid():
-        
-        save_it = form.save()
-        
-        save_it.password = make_password(password=save_it.password,
-                                   salt=None,
-                                   hasher='pbkdf2_sha256')
-        
-        save_it.password_conf = save_it.password
-        
-        user_firstname = save_it.first_name
-        user_lastname = save_it.last_name
-        user_email = save_it.email
-        user_organization = save_it.Organization
-        user_password = save_it.password
-        
-        save_it.save()
-        
-        salt = hashlib.sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]            
-        activation_key = hashlib.sha1((salt+user_email).encode('utf-8')).hexdigest()            
-        key_expires = datetime.datetime.today() + datetime.timedelta(2)
-        #key_expires = datetime.datetime.now() + datetime.timedelta()
-        
-        #Get user by username
-        user = SignUp.objects.get(first_name=user_firstname)
-
-
-        # Create and save user profile                                                                                                                                  
-        
-
-        new_profile = SignUp(first_name=user.first_name,
-                             last_name=user.last_name,
-                             email=user.email,
-                             password=user.password,
-                             position=user.position,
-                             password_conf=user.password_conf,
-                             Organization=user.Organization,
-                             activation_key=activation_key,key_expires=key_expires)
-        new_profile.save()
-        
-        # Send email with activation key
-        email_subject = 'Account confirmation'
-        email_body = "Dear %s, \
-                     \n\nThank you for signing up. \
-                     \n\nTo activate your account, please click this link within 48 hours http://127.0.0.1:8000/register_confirm/%s \
-                     \n\nWarm Regards, \
-                     \n\nWebmaster, \
-                     \nBrain MRI Maps. \
-                     \nwww.brainmrimaps.org" % (user_firstname, activation_key)
-                     
-        
-        from_email=settings.EMAIL_HOST_USER
-        to_list=[user_email]
-            
-            
-        send_mail(email_subject,email_body,from_email,to_list,fail_silently=True)
-            
-        return render_to_response("verify_user.html")    
-        
-        
-    else:
-        return render_to_response("signup.html",
-                              locals(),
-                              context_instance=RequestContext(request))
-    
-    
-    return render_to_response("signup.html",
-                              locals(),
-                              context_instance=RequestContext(request))
-
 
 def forgot_password(request):
     form = MyForgotPasswordForm(request.POST or None)
@@ -385,7 +337,8 @@ def forgot_password(request):
                               locals(),
                               context_instance=RequestContext(request))
 
-def reset_password(request, activation_key):
+#def reset_password(request, activation_key):
+def reset_password(request):
     
     form = MyPasswordResetForm(request.POST or None)
     
@@ -400,6 +353,17 @@ def reset_password(request, activation_key):
         save_it.password_conf = save_it.password
         save_it.save() 
        
+       
+        
+        save_it_email = save_it.email
+        user_test = SignUp.objects.filter(email=save_it.email,is_active=True).exists()
+        
+        if not user_test:
+            return render_to_response("verify_user.html")
+        
+        user = SignUp.objects.get(email=save_it.email,is_active=True)
+        SignUp.objects.get(email=save_it.email,is_active=True).delete()
+        
         #print(save_it.password)
        
         totalusers=SignUp.objects.filter(email=save_it.email).count()
@@ -410,9 +374,18 @@ def reset_password(request, activation_key):
         #if totalusers!=0:
             
         #for i in range(totalusers):
+        #user_test = SignUp.objects.filter(email=save_it.email,is_active=True).exists()
+        #if not user_test:
+        #    return render_to_response("verify_user.html")
+        
+        #user = SignUp.objects.get(email=save_it.email,is_active=True)
+        #SignUp.objects.get(email=save_it.email,is_active=True).delete()
                 
-        user=SignUp.objects.get(email=save_it.email)
-        SignUp.objects.get(email=save_it.email,is_active=False).delete()
+        #user=SignUp.objects.get(email=save_it.email)
+        
+        #if SignUp.objects.filter(email=save_it.email,is_active=False).exists():
+        #    SignUp.objects.get(email=save_it.email,is_active=False).delete()
+            
         user_password = save_it.password
         user_password_conf = save_it.password_conf
         user_first_name = user.first_name
