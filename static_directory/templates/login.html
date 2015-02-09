@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}    
+      
+    <div style="margin-top: 6px;" class="col-sm-12 text-center">
+          <h1 style="text-align: center;">Login Now</h1><br>
+          <form  method='POST' action=''> {% csrf_token %}
+
+            {{form.as_p}}
+            <!--<div style="margin-top: 0px;" class="col-sm-6 text-right">-->
+              <input type= "submit" value = "Download">
+              <p>Please click <a href="/signup">here </a>if you want to register yourself!</p>
+              <p>Please click <a href="/forgot_password">here </a>if you forgot your password! </p>
+              
+              
+            <!--</div>-->
+          </form> 
+    </div>
+        
+    
+   
+{% endblock %}
