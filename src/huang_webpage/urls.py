@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'signups.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^account/', include('django.contrib.auth.urls')),
+    
     
     url(r'^index/$', 'signups.views.home', name='home'),
     url(r'^research/$', 'signups.views.research', name='research'),
@@ -20,6 +22,11 @@ urlpatterns = patterns('',
     url(r'^download/$', 'signups.views.download', name='download'),
     url(r'^verify_user/$', 'signups.views.verify_user', name='verify_user'),
     url(r'^confirmation_expired/$', 'signups.views.confirmation_expired', name='confirmation_expired'),
+    url(r'^login/$', 'signups.views.login', name='login'),
+    url(r'^signup/$', 'signups.views.signup', name='signup'),
+    url(r'^thankyou/$', 'signups.views.thank_you', name='thank_you'),
+    
+    url(r'^mass_email/(?P<permission_key>\w+)/$', ('signups.views.mass_email'), name='mass_email'),
     url(r'^register_confirm/(?P<activation_key>\w+)/$', ('signups.views.register_confirm'), name='register_confirm'),
     
     

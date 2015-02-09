@@ -3,35 +3,18 @@
 
 {% block content %}    
       
-    <div style="margin-top: 6px;" class="col-sm-6 text-center">
-          <h1 style="text-align: center;">Join now</h1><br>
+    <div style="margin-top: 6px;" class="col-sm-12 text-center">
+          <h1 style="text-align: center;">Join Now</h1><br>
           <form  method='POST' action=''> {% csrf_token %}
 
             {{form.as_p}}
             <!--<div style="margin-top: 0px;" class="col-sm-6 text-right">-->
-              <input type= "submit" value = "Download">
+              <input type= "submit" value = "Register">
+              <p>Please click <a href="/login">here </a>if you have already registered!</p>
             <!--</div>-->
           </form> 
     </div>
         
-    <div style="margin-top: -16px;" class="col-sm-6 text-center">
-          <h1>Login if you have already registered</h1>
-          
-            <div class="form-group">
-              <!-- <input type="text" placeholder="First Name" class="form-control"> 
-               <input type="text" placeholder="Last Name" class="form-control">
-               <input type="text" placeholder="Password" class="form-control">
-               <input type="text" placeholder="Email" class="form-control">-->
-                
-                {{login_form.as_p}}
-                <div style="margin-top: 0px;" class="col-sm-6 text-left">
-               <input style="margin-top: 20px; text-align: left" value="Download" type="submit">
-            </div>
-                <div style="margin-top: 0px;" class="col-sm-6 text-right">
-               <input style="margin-top: 20px; text-align: right" value="Forgot Password" type="submit">
-              </div>
-             </div>
-    </div>
     
    
 {% endblock %}

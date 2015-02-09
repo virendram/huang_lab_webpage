@@ -42,7 +42,7 @@
   
     <div class="container">
       
-      {% if messages %}
+      <!--{% if messages %}
       <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
         {% for message in messages %}
@@ -50,20 +50,32 @@
        {% endfor %}
          </div>
       </div>
-      {% endif %}
+      {% endif %}-->
       
       <div class="row">
         {% block content %}{%endblock%}
       </div>
       
 
-<!--<hr>-->
+<hr>
 
-      
+      <footer>
+              <div>
+                <p style="text-align: center;">
+                  <a style="color: black; font-size: medium;" href='{%url "home" %}'><b>Home | </b></a> 
+                  <a style="color: black; font-size: medium;" href='{%url "research" %}'><b>Research | </b></a>
+                  <a style="color: black; font-size: medium;" href='{%url "publications" %}'><b>Publications | </b></a> 
+                  <a style="color: black; font-size: medium;" href='{%url "download" %}'><b>Downloads | </b></a> 
+                  <a style="color: black; font-size: medium;" href='{%url "contact_us" %}'><b>Contact Us  </b></a>
+                </p>
+                <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+                
+              </div>
+      </footer>    
     </div> <!-- /container -->
 
-
-
+  
+  
 
         
     <!-- Bootstrap core JavaScript

@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'signups',
 )
 
@@ -103,3 +104,16 @@ if DEBUG:
     STATICFILES_DIRS=(
         os.path.join(os.path.dirname(BASE_DIR),"static_directory","static"),
     )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+)
+#AUTHENTICATION_BACKENDS = ('django.contrib.auth.models.AbstractBaseUser',)
+#AUTHENTICATION_BACKENDS = ( 'path.to.your.MyCustomBackend', )

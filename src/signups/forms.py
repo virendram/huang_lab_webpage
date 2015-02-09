@@ -1,7 +1,9 @@
 from django import forms
-from .models import SignUp
+from .models import SignUp,MyLogin
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import (
+    check_password, make_password, is_password_usable)
 import datetime
 
 class SignUpForm(forms.ModelForm):
@@ -18,8 +20,7 @@ class SignUpForm(forms.ModelForm):
 
     
     class Meta:
-        #'password':forms.PasswordInput()
-        #password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+        
         model=SignUp
         widgets={
             'first_name': forms.TextInput(attrs={'size':50,'placeholder':'First Name'}),
@@ -34,7 +35,7 @@ class SignUpForm(forms.ModelForm):
         
     def clean_email(self):
         email = self.cleaned_data["email"]
-        
+        user = super(SignUpForm, self).save(commit=False)
         
         if SignUp.objects.filter(email=email).exists():
             raise forms.ValidationError('A User with this email already exists!')
@@ -52,14 +53,51 @@ class SignUpForm(forms.ModelForm):
         if commit:
             user.is_active = False # not active until he opens activation link
             user.save()
+            
         return user
     
-    lastSeenId = float('-Inf')
-    rows = SignUp.objects.all().order_by('email')
+    
 
-    for row in rows:
-        if row.email == lastSeenId:
-            row.delete() # We've seen this id in a previous row
-        else: # New id found, save it and check future rows for duplicates.
-            lastSeenId = row.email
-        pass
+class MyLoginForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MyLoginForm, self).__init__(*args, **kwargs)
+        self.fields['email'].label = ''
+        self.fields['password'].label = ''
+        
+    class Meta:
+        
+        model=MyLogin
+        widgets={
+            'email': forms.TextInput(attrs={'size':50,'placeholder':'Email'}),
+            'password':forms.PasswordInput(attrs={'placeholder': 'Password','size':50}),
+        }
+        fields = ['email','password']
+        
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        
+        if SignUp.objects.filter(email=email).exists():
+            if len(SignUp.objects.filter(email=email,is_active=True))>=1:
+                
+                return email
+                
+            else:
+                
+                raise forms.ValidationError('Please activate yourself by clicking on the email sent to your registered email!')
+            
+        else:
+            
+            raise forms.ValidationError('A User with this email does not exist!')
+        
+       
+   
+    def clean(self):
+        
+        if 'email' in self.cleaned_data:
+            password = self.cleaned_data["password"]
+            email = self.cleaned_data["email"]
+            print(email)
+            stored_password=SignUp.objects.get(email=email,is_active=True)
+            if check_password(password,stored_password.password)== False:
+                raise forms.ValidationError('Entered password does not match the registered password!')
+    

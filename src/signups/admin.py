@@ -8,3 +8,4 @@ class SignUpAdmin(admin.ModelAdmin):
         model = SignUp
 
 admin.site.register(SignUp,SignUpAdmin)
+
