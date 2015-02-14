@@ -4,15 +4,14 @@
 {% block content %}    
       
     <div style="margin-top: 6px;" class="col-sm-12 text-center">
-          <h1 style="text-align: center;">Reset Password</h1><br>
+          <h1 style="text-align: center;">Resend the activation link</h1><br>
           <form  method='POST' action=''> {% csrf_token %}
 
             {{form.as_p}}
             <!--<div style="margin-top: 0px;" class="col-sm-6 text-right">-->
-              <input type= "submit" value = "Reset Now">
-              <p>Please click <a href="/index">here </a>to go back to homepage!</p>
-              <p>Please <a href="/signup">register </a>yourself!</p>
-              <p>Please <a href="/reset_activation_link">re-send activation link! </a> </p>
+              <input type= "submit" value = "Send me the link!">
+              <p>Please click <a href="/signup">here </a>if you want to register yourself!</p>
+              
             <!--</div>-->
           </form> 
     </div>

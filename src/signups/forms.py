@@ -33,18 +33,24 @@ class SignUpForm(forms.ModelForm):
         }
         fields = ['first_name','last_name','position','password','password_conf','email','Organization']
         
-    def clean_email(self):
-        email = self.cleaned_data["email"]
-        user = super(SignUpForm, self).save(commit=False)
-        
-        if SignUp.objects.filter(email=email).exists():
-            raise forms.ValidationError('A User with this email already exists!')
-        else:
-            return email
+    
+    #def clean_email(self):
+    #    if 'first_name' in self.cleaned_data and 'last_name' in self.cleaned_data and 'Organization' in self.cleaned_data:
+    #        email = self.cleaned_data["email"]
+    #        user = super(SignUpForm, self).save(commit=False)
+    #        if SignUp.objects.filter(email=email).exists():
+    #            raise forms.ValidationError('A User with this email has already been registered. Pleae login from the link below!')
+    #        else:
+    #            return email
     
     def clean(self):
+        
         if 'password' in self.cleaned_data and 'password_conf' in self.cleaned_data and self.cleaned_data['password'] != self.cleaned_data['password_conf']:
             raise forms.ValidationError("The password does not match ")
+        
+        email = self.cleaned_data['email']
+        if SignUp.objects.filter(email=email).exists():
+            raise forms.ValidationError('A User with this email has already been registered. Pleae login from the link below!')
         return self.cleaned_data
         
     def save(self, commit=True):
@@ -53,8 +59,11 @@ class SignUpForm(forms.ModelForm):
         if commit:
             user.is_active = False # not active until he opens activation link
             user.save()
-            
+        #else:
+        #    raise forms.ValidationError('Something is wrong')
         return user
+        
+    
     
     
 
@@ -83,7 +92,7 @@ class MyLoginForm(forms.ModelForm):
                 
             else:
                 
-                raise forms.ValidationError('Please activate yourself by clicking on the email sent to your registered email!')
+                raise forms.ValidationError('Please activate yourself by clicking on the email sent to your registered email or Please click below to request activation email!')
             
         else:
             

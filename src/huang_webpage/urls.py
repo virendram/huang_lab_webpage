@@ -32,11 +32,13 @@ urlpatterns = patterns('',
     url(r'^forgot_password/$', 'signups.views.forgot_password', name='forgot_password'),
     url(r'^password_changed_successfully/$', 'signups.views.password_changed_successfully', name='password_changed_successfully'),
     url(r'^check_email_password_reset/$', 'signups.views.check_email_password_reset', name='check_email_password_reset'),
-    
+    url(r'^user_active/$', 'signups.views.user_active', name='user_active'),
     url(r'^mass_email/(?P<permission_key>\w+)/$', ('signups.views.mass_email'), name='mass_email'),
     url(r'^register_confirm/(?P<activation_key>\w+)/$', ('signups.views.register_confirm'), name='register_confirm'),
     #url(r'^reset_password/(?P<activation_key>\w+)/$', ('signups.views.reset_password'), name='reset_password'),
     url(r'^reset_password/$', ('signups.views.reset_password'), name='reset_password'),
+    url(r'^reset_activation_link/$', ('signups.views.reset_activation_link'), name='reset_activation_link'),
+    
     
     
     #url(r'^gestational_week_33wg_b0/$', 'signups.views.gestational_week_33wg_b0', name='gestational_week_33wg_b0'),

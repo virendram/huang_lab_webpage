@@ -179,7 +179,7 @@ def signup(request):
         to_list=[user_email]
             
             
-        send_mail(email_subject,email_body,from_email,to_list,fail_silently=True)
+        send_mail(email_subject,email_body,from_email,to_list,fail_silently=False)
             
         return render_to_response("verify_user.html")    
         
@@ -197,7 +197,7 @@ def signup(request):
 
 def register_confirm(request, activation_key):
     
-
+    print(activation_key)
     # check if there is UserProfile which matches the activation key (if not then display 404)
     signup_user = get_object_or_404(SignUp, activation_key=activation_key)
 
@@ -222,8 +222,9 @@ def register_confirm(request, activation_key):
     signup_user.is_active = True
     signup_user.save()
     
-    user = SignUp.objects.get(email=signup_user_email,is_active=False)
-    user.delete()
+    if SignUp.objects.filter(email=signup_user_email,is_active=False).exists():
+        user = SignUp.objects.get(email=signup_user_email,is_active=False)
+        user.delete()
     
     subject='Thank you for your interest'
         
@@ -438,16 +439,72 @@ def check_email_password_reset(request):
 def password_changed_successfully(request):
     return render_to_response("password_changed_successfully.html")
 
+def reset_activation_link(request):
+    form = MyForgotPasswordForm(request.POST or None)
 
+    if form.is_valid():
+        save_it = form.save()
+        save_it_email = save_it.email
+        user_test = SignUp.objects.filter(email=save_it.email,is_active=True).exists()
+        
+        if user_test == True:
+            return render_to_response("user_active.html")
+                              
+        user_count = SignUp.objects.filter(email=save_it.email,is_active=False).count()
+        
+        
+        if (user_count)>1:
+            user = SignUp.objects.filter(email=save_it.email,is_active=False)[0]
+            SignUp.objects.filter(email=save_it.email,is_active=False)[0].delete()
+        else:
+            user = SignUp.objects.get(email=save_it.email,is_active=False)
+            
+        SignUp.objects.get(email=save_it.email,is_active=False).delete()
+        
+        user_email = user.email
+        user_firstname = user.first_name
+        
+        salt = hashlib.sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]            
+        activation_key = hashlib.sha1((salt+user_email).encode('utf-8')).hexdigest()            
+        key_expires = datetime.datetime.today() + datetime.timedelta(2)
+        
+        new_profile = SignUp(first_name=user.first_name,
+                             last_name=user.last_name,
+                             email=user.email,
+                             password=user.password,
+                             position=user.position,
+                             password_conf=user.password_conf,
+                             Organization=user.Organization,
+                             activation_key=activation_key,key_expires=key_expires,is_active=False)
+                #print(new_profile.password)
+        new_profile.save()
+                
+        #salt = hashlib.sha1(str(random.random()).encode('utf-8')).hexdigest()[:5]            
+        #activation_key = hashlib.sha1((salt+save_it.email).encode('utf-8')).hexdigest() 
+        # Send email with activation key
+        email_subject = 'Account confirmation'
+        email_body = "Dear %s, \
+                     \n\nThank you for signing up. \
+                     \n\nTo activate your account, please click this link within 48 hours http://127.0.0.1:8000/register_confirm/%s \
+                     \n\nWarm Regards, \
+                     \n\nWebmaster, \
+                     \nBrain MRI Maps. \
+                     \nwww.brainmrimaps.org" % (user_firstname, activation_key)
+                     
+        
+        from_email=settings.EMAIL_HOST_USER
+        to_list=[user_email]
+            
+            
+        send_mail(email_subject,email_body,from_email,to_list,fail_silently=True)
+            
+        return render_to_response("verify_user.html")    
+        
+        
+    return render_to_response("reset_activation_link.html",
+                              locals(),
+                              context_instance=RequestContext(request))
 
-
-
-
-
-
-
-
-
-
-
-
+def user_active(request):
+    return render_to_response("user_active.html")
+    
