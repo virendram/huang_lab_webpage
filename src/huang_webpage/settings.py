@@ -73,6 +73,19 @@ DATABASES = {
     }
 }
 
+#DATABASES = {
+#    'default' : {
+#        'ENGINE':'django.db.backends.mysql',
+#        'NAME': 'huangdatabase',
+#        'USER':'b1e43a74d2084d',
+#        'PASSWORD':'e40cc5f370f25e5',
+#        'HOST':'us-cdbr-azure-east2-d.cloudapp.net',
+#        'PORT':'3306',
+#        'OPTIONS':{'ssl': {'ca':'../cleardb-ca.pem', 
+#            'cert':'../f771ca2bdfd99a-cert.pem', 
+#            'key':'../f771ca2bdfd99a-key-nopass.pem'},},
+#    }
+#}
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
