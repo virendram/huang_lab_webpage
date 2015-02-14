@@ -49,6 +49,7 @@ class SignUpForm(forms.ModelForm):
             raise forms.ValidationError("The password does not match ")
         
         email = self.cleaned_data['email']
+        
         if SignUp.objects.filter(email=email).exists():
             raise forms.ValidationError('A User with this email has already been registered. Pleae login from the link below!')
         return self.cleaned_data
@@ -103,12 +104,13 @@ class MyLoginForm(forms.ModelForm):
     def clean(self):
         
         if 'email' in self.cleaned_data:
-            password = self.cleaned_data["password"]
-            email = self.cleaned_data["email"]
-            
-            stored_password=SignUp.objects.get(email=email,is_active=True)
-            if check_password(password,stored_password.password)== False:
-                raise forms.ValidationError('Entered password does not match the registered password!')
+            if 'password' in self.cleaned_data:
+                password = self.cleaned_data["password"]
+                email = self.cleaned_data["email"]
+                stored_password=SignUp.objects.get(email=email,is_active=True)
+                
+                if check_password(password,stored_password.password)== False:
+                    raise forms.ValidationError('Entered password does not match the registered password!')
 
 
 class MyForgotPasswordForm(forms.ModelForm):
