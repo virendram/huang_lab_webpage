@@ -29,7 +29,7 @@ class SignUpForm(forms.ModelForm):
             'password':forms.PasswordInput(attrs={'placeholder': 'Password','size':50}),
             'password_conf':forms.PasswordInput(attrs={'placeholder': 'Re-enter Password','size':50}),
             'email': forms.TextInput(attrs={'size':50,'placeholder':'Email'}),
-            'Organization': forms.TextInput(attrs={'size':50,'placeholder':'University/Company'}),
+            'Organization': forms.TextInput(attrs={'size':50,'placeholder':'Name of the University/Company'}),
         }
         fields = ['first_name','last_name','position','password','password_conf','email','Organization']
         
